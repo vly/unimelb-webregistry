@@ -7,7 +7,7 @@ CREATE (website:Websites { site: csvLine.URL, title: csvLine.Title, status: csvL
 CREATE (department:Department {name: csvLine.Department})
 CREATE (faculty)-[:Has]->(department)
 CREATE (faculty)-[:Owns]->(website)
-MERGE (primary:Primary_Contact {name:Primary_Contact}
+MERGE (primary:Primary_Contact {name:csvLine.Primary_Contact})
 CREATE (primary)-[:Works_At]->(faculty)
 CREATE (website)-[:Contact]->(primary)
 MERGE (maintainer:Maintainer {name:Maintainer})
