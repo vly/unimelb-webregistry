@@ -1,5 +1,5 @@
 
-//data1
+//data1s
 LOAD CSV 
 WITH HEADERS FROM "http://localhost:8000/data.csv" AS csvLine
 MERGE  (faculty:Faculty { name: csvLine.Faculty})

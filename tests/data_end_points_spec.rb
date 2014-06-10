@@ -13,13 +13,24 @@ describe DataEndPoints do
 
 		describe '#get_data_person' do
 			it "returns data associated with the person" do
-        		expect(DataEndPoints.new.getDataPerson("Mark")).to be_truthy
-        		#empty object returned above
-        		puts(DataEndPoints.new.getDataPerson("Peter Griffin"))
+        		expect(DataEndPoints.new.getPerson("Mark")).to be_truthy
+        		#puts(DataEndPoints.new.getPerson("Peter Griffin"))
 			end
 		end
 
+				describe '#get_data_url' do
+			it "returns data associated with the url" do
+        		expect(DataEndPoints.new.getURL("ausa")).to be_truthy
+        		puts(DataEndPoints.new.getURL("ausa"))
+			end
+		end
 
+				describe '#get_data_faculty' do
+			it "returns data associated with the faculty" do
+        		expect(DataEndPoints.new.getDepartment("Arts")).to be_truthy
+        		#puts(DataEndPoints.new.getDepartment("Arts"))
+			end
+		end
 		
 	end
 end
