@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'neography'
 require 'ostruct'
-require '../lib/appConfig'
+require './config/appConfig'
 
 
 class DataEndPoints 
@@ -41,13 +41,15 @@ class DataEndPoints
     #url : website + department +person+relationship
      pVal = "\".*"+pName+".*\""
      #match (y:Faculty)-[:Owns]->(x:Website) where x.url=~'.*melb.*' return y
-     results = @neo.execute_query("match (x:Website)-[r]-(y) where x.url=~#{pVal} return x,y,r")
-     array_of_hashes = results["data"].map {|row| Hash[*results["columns"].zip(row).flatten] }
-     data = array_of_hashes.map{|m| OpenStruct.new(m)}
-     return data
+     parseData(@neo.execute_query("match (x:Website)-[r]-(y) where x.url=~#{pVal} return x,y,r"))
     end
 
 
+    def parseData(records)
+     array_of_hashes = records["data"].map {|row| Hash[*records["columns"].zip(row).flatten] }
+     data = array_of_hashes.map{|m| OpenStruct.new(m)}
+     return data
+    end
 
 
 

@@ -1,15 +1,19 @@
 
 require 'RSpec'
+require 'neography'
 
 require '../lib/dataEndPoints'
 
 describe DataEndPoints do
 
-	describe '#start' do
-	 	before(:each) do
-	 		@neo =Neography::Rest.new("http://localhost:9001")
-	 	end
+    	describe '#initalize' do
+    		it "creates neo object" do
+    			data_end_point = DataEndPoints.new
+                expect(data_end_point.getNeo).to be_an_instance_of(Neography::Rest)
 
+    		end
+
+    	end     
 
 		describe '#get_data_person' do
 			it "returns data associated with the person" do
@@ -18,14 +22,14 @@ describe DataEndPoints do
 			end
 		end
 
-				describe '#get_data_url' do
+		describe '#get_data_url' do
 			it "returns data associated with the url" do
         		expect(DataEndPoints.new.getURL("ausa")).to be_truthy
-        		puts(DataEndPoints.new.getURL("ausa"))
+        		#puts(DataEndPoints.new.getURL("ausa"))
 			end
 		end
 
-				describe '#get_data_faculty' do
+		describe '#get_data_faculty' do
 			it "returns data associated with the faculty" do
         		expect(DataEndPoints.new.getDepartment("Arts")).to be_truthy
         		#puts(DataEndPoints.new.getDepartment("Arts"))
@@ -33,4 +37,3 @@ describe DataEndPoints do
 		end
 		
 	end
-end
