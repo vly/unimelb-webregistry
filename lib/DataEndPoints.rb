@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'neography'
 require 'ostruct'
-require './config/appConfig'
+require '../config/appConfig'
 
 
 class DataEndPoints 
