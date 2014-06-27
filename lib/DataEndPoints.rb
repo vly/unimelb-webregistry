@@ -1,12 +1,13 @@
 require 'rubygems'
 require 'neography'
 require 'ostruct'
+require '../lib/appConfig'
 
 
-class DataEndPoints
+class DataEndPoints 
 
     def initialize()
-    	@neo = Neography::Rest.new("http://app25955786:4T5X8ANzM9owEs7PeOkd@app25955786.sb02.stations.graphenedb.com:24789")
+    	@neo = Neography::Rest.new(ENV['GRAPHENEDB_URL'] || AppConfig::GRAPHENE_DB_URL)
     end
 
     def getNeo
