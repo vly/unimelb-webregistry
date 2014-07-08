@@ -5,10 +5,10 @@ require_relative 'dataEndPoints.rb'
 
 class AppEndPoints < Sinatra::Base
 
-    def initialize
-        @search = DataEndPoints.new
-    end
-
+    
+   get '/' do
+    "Hello, world!"
+  end
 
 	get '/index' do 
 		"Hello World"
@@ -16,7 +16,9 @@ class AppEndPoints < Sinatra::Base
 
 
 	get '/search/:query' do
-	@search.getURL(params[:query])
+		@search = DataEndPoints.new
+		value = @search.get_data(params[:query])
+		return value
     end
 
 
