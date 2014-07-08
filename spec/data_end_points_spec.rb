@@ -32,7 +32,7 @@ describe DataEndPoints do
 		describe '#get_data_faculty' do
 			it "returns data associated with the faculty" do
         		expect(DataEndPoints.new.getDepartment("Arts")).to be_truthy
-        		puts "#{DataEndPoints.new.getDepartment("Arts")}"
+        		#puts "#{DataEndPoints.new.getDepartment("Arts")}"
 			end
 		end
 
