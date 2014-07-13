@@ -1,5 +1,3 @@
-
-require 'RSpec'
 require 'neography'
 
 require_relative  '../lib/dataEndPoints'
