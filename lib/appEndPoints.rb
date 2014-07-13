@@ -3,26 +3,12 @@ require 'sinatra'
 require_relative 'dataEndPoints.rb'
 
 
-class AppEndPoints < Sinatra::Base
+# class AppEndPoints < Sinatra::Base
 
-    
-   get '/' do
-    "Hello, world!"
+  get '/search/:query' do |q|
+		@search = DataEndPoints.new
+		value = @search.get_data(q)
+		return value.to_json
   end
 
-	get '/index' do 
-		"Hello World"
-	end
-
-
-	get '/search/:query' do
-		@search = DataEndPoints.new
-		value = @search.get_data(params[:query])
-		return value
-    end
-
-
-
-
-
-end
+# end
