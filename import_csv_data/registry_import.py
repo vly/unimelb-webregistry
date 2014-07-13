@@ -58,7 +58,7 @@ class uploader():
         '''Insert new record into db'''
 
         self.batch_cypher(self.write_batch, ('MERGE  (faculty:Faculty { name: "%s"}) MERGE (contact:Person {name:"%s"}) MERGE (maintain:Person {name:"%s"}) MERGE (department:Department {name: "%s"}) CREATE (faculty)-[:Owns]->(site:Website {\
-            url: "%s", protocol: "%s"})' % (line["faculty"],line["primary_contact"],line["maintainer"], line["department"], line["url"], line["protocol"])))
+            url: "%s", protocol: "%s", title: "%s"})' % (line["faculty"],line["primary_contact"],line["maintainer"], line["department"], line["url"], line["protocol"], line["title"])))
 
         self.batch_cypher(self.write_batch, ('MERGE (site:Website { url: "%s"}) MERGE (contact:Person{name:"%s"}) MERGE (maintainer:Person{name:"%s"}) CREATE (contact)<-[:Contact]-(site)-[:Maintainer]->(maintainer)' % (line["url"],line["primary_contact"],line["maintainer"])))
 
