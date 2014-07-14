@@ -1,3 +1,3 @@
-require_relative  '../lib/dataEndPoints'
+require_relative  '../lib/DataEndPoints'
 
 require 'neography'
