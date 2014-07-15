@@ -2,13 +2,11 @@ require 'rubygems'
 require 'neography'
 require 'ostruct'
 require 'json'
-require_relative '../config/appConfig'
-
 
 class DataEndPoints 
 
     def initialize()
-    	@neo = Neography::Rest.new(ENV['GRAPHENEDB_URL'] || AppConfig::GRAPHENE_DB_URL)
+    	@neo = Neography::Rest.new(ENV['GRAPHENEDB_URL'])
     end
 
     def getNeo
@@ -71,6 +69,6 @@ class DataEndPoints
         rows << r
      end
      out = {:columns => records["columns"], :data => rows}
-     return out.to_json
+     return out
     end
 end
