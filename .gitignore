@@ -1,3 +1,4 @@
 .DS_store
 Sample_Code
 config/appConfig.rb
+Gemfile.lock.old
