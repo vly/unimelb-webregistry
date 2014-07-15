@@ -2,7 +2,7 @@
 require 'rspec'
 require 'neography'
 
-require_relative  '../lib/dataEndPoints'
+require_relative  '../lib/DataEndPoints'
 
 describe DataEndPoints do
 
