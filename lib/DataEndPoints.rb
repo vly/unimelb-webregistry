@@ -44,12 +44,13 @@ class DataEndPoints
 
   def get_data(query_string)
     res = @neo.batch getURL(query_string), getPerson(query_string), getDepartment(query_string)
-
-    return res
+    puts parseData(res[2]["body"])
+    res.map {|r| parseData r["body"]}.flatten.compact
   end
 
 
   def parseData(records)
+    return nil unless records["data"]
      array_of_hashes = records["data"].map {|row| Hash[*records["columns"].zip(row).flatten] }
      data1 = array_of_hashes.map{|m| OpenStruct.new(m)}
      rows = Array.new()
