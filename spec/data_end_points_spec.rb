@@ -1,8 +1,6 @@
 
-require 'rspec'
-require 'neography'
 
-require_relative  '../lib/DataEndPoints'
+require 'spec_helper.rb'
 
 describe DataEndPoints do
 
