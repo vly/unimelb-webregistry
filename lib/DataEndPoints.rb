@@ -69,6 +69,6 @@ class DataEndPoints
         rows << r
      end
      out = {:columns => records["columns"], :data => rows}
-     return out
+     return out.to_json
     end
 end
