@@ -44,7 +44,7 @@ class DataEndPoints
     end
 
     def get_data(query_string)
-        return parseData(query_data(query_string))
+        return query_data(query_string).to_json
     end
 
 
