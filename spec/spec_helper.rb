@@ -1,5 +1,5 @@
 #spec_helper.rb
 
-require_relative  '../lib/DataEndPoints'
+require_relative  '../lib/dataEndPoints'
 
 require 'neography'
