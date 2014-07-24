@@ -39,8 +39,12 @@ class DataEndPoints
     end
 
 
+    def query_data(query_string)
+        return @neo.batch(getURL(query_string), getPerson(query_string), getDepartment(query_string)
+    end
+
     def get_data(query_string)
-        return parseData(@neo.batch getURL(query_string), getPerson(query_string), getDepartment(query_string))
+        return parseData(query_data(query_string))
     end
 
 
