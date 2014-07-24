@@ -7,4 +7,9 @@ class AppEndPoints < Sinatra::Base
 		value = @search.get_data(params[:query])
 		return value
     end
+
+    get'/'do
+    	status 200
+    	body ''
+	end
 end
