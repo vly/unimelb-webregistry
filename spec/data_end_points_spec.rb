@@ -37,6 +37,7 @@ describe DataEndPoints do
 		describe '#get_from_single_endpoint' do
 			it "returns data if value present" do
 				expect(DataEndPoints.new.query_data("Arts")).to be_truthy
+				puts "#{DataEndPoints.new.query_data("Arts")}"
 			end
 		end
 		

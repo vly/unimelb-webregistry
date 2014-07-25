@@ -3,6 +3,9 @@ require 'neography'
 require 'ostruct'
 require 'json'
 
+require_relative './webSiteData.rb'
+
+
 class DataEndPoints 
 
     def initialize()
@@ -16,16 +19,17 @@ class DataEndPoints
 
 	def getDepartment(pFaculty)
         #facultyName : faculty + websites
-        pVal = "\".*"+pFaculty+".*\"" 
-        return :execute_query, "match (y:Faculty)-[r]->(x:Website) where y.name=~#{pVal}  return x,y,r"
+
+        pVal = "\"(?i)(^|.* )"+pFaculty+".*\"" 
+        return :execute_query, "match (dept:Faculty)-[r1]->(website:Website)-[role]->(person:Person) where dept.name=~#{pVal}  return website,dept,person,role"
 	end
 
 
     def getPerson(pName)
         # gets all data associated with the person
         #persons name : websites + person
-        pVal = "\".*"+pName+".*\""
-         return :execute_query, "match (x:Website)-[r]->(y:Person) where y.name=~#{pVal} return x,y,r"
+        pVal = "\"(?i)(^|.* )"+pName+".*\""
+         return :execute_query, "match (dept:Faculty)-[r1]->(website:Website)-[role]->(person:Person) where person.name=~#{pVal} return website,dept,person,role"
     end
 
 
@@ -35,7 +39,7 @@ class DataEndPoints
         #url : website + department +person+relationship
         pVal = "\".*"+pName+".*\""
         #match (y:Faculty)-[:Owns]->(x:Website) where x.url=~'.*melb.*' return y
-        return :execute_query, "match (x:Website)-[r]-(y) where x.url=~#{pVal} return x,y,r"
+        return :execute_query, "match (dept:Faculty)-[r1]->(website:Website)-[role]->(person:Person) where website.url=~#{pVal} or website.title=~#{pVal} return website,dept,person,role"
     end
 
 
@@ -44,19 +48,36 @@ class DataEndPoints
     end
 
     def get_data(query_string)
-        return query_data(query_string).to_json
+        #return query_data(query_string).to_json
+         return parseData(query_string,query_data(query_string))
+
     end
 
 
-    def parseData(records)
-     array_of_hashes = records["data"].map {|row| Hash[*records["columns"].zip(row).flatten] }
-     data1 = array_of_hashes.map{|m| OpenStruct.new(m)}
-     rows = Array.new()
-     data1.each do |node|
-        r = {:x => node.x["data"], :y => node.y["data"], :r => node.r["type"]}
-        rows << r
-     end
-     out = {:columns => records["columns"], :data => rows}
-     return out.to_json
+    def parseData(query_string,records)
+        
+        rows = Hash.new()
+        records.each do |blck|
+            record =blck["body"]
+            if(!(record["data"].empty?))
+                array_of_hashes = record["data"].map {|row| Hash[*record["columns"].zip(row).flatten] }
+                data1 = array_of_hashes.map{|m| OpenStruct.new(m)}
+                data1.each do |node|
+                    if(!rows.has_key?(node.website["data"]["url"]))
+                       rows[node.website["data"]["url"]] = WebSiteData.new(node.website["data"]["url"],node.website["data"]["title"],node.dept["data"]["name"])
+                    end
+                    if(node.role["type"].eql?"Maintainer")
+                        rows[node.website["data"]["url"]].maintainer = node.person["data"]["name"]
+                
+                    else
+                        rows[node.website["data"]["url"]].contact = node.person["data"]["name"]
+                    end
+
+                    #r = {:website => node.website["data"]["url"], :faculty => node.dept["data"], :person =>node.person["data"], :role => node.role["type"]}
+                    puts "#{rows[node.website["data"]["url"]].inspect}"
+                end
+            end
+        end
+        return  {'query' => query_string,'data' => rows.values.map{ |e| e.to_h}}.to_json
     end
 end

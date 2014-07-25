@@ -38,6 +38,8 @@ GEM
       rspec-support (~> 3.0.0)
     rspec-support (3.0.2)
     rubyzip (1.1.6)
+    shotgun (0.9)
+      rack (>= 1.0)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -58,5 +60,6 @@ DEPENDENCIES
   rake
   rspec
   rubyzip
+  shotgun
   sinatra
   unicorn

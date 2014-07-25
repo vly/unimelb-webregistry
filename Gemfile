@@ -8,3 +8,8 @@ gem  "rake"
 gem "sinatra"
 gem "unicorn"
 gem "rubyzip"
+
+
+group :development do
+	gem "shotgun"
+end
