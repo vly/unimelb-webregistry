@@ -14,17 +14,36 @@ var ReactTransitionGroup = React.addons.TransitionGroup;
 require('../../styles/reset.css');
 require('../../styles/main.css');
 
-var imageURL = '../../images/yeoman.png';
+var search = 'http://nikki.unimelb.edu.au:9393/search/';
 
 var FrontEndApp = React.createClass({
-  render: function() {
-    return (
-      <div className='main'>
-      <SearchBox />
-      <DataTable sitedata={this.props.sitedata}/>
-      </div>
-    );
-  }
+	getInitialState: function () {
+		return {
+    		searchText: '',
+			data: []
+    	};
+	},
+    handleSearch: function(searchTerm){
+    	var searchUrl =  search+searchTerm
+		$.ajax({
+			url: searchUrl,
+			dataType: 'json',
+      		success: function(data) {
+        		this.setState({data: data});
+      		}.bind(this),
+      		error: function(xhr, status, err) {
+        		console.error(searchUrl, status, err.toString());
+      		}.bind(this)
+    	});
+	},
+	render: function(){
+		return(
+	      <div className='main'>
+	      	<SearchBox onSearchSubmit={this.handleSearch} />
+	      	<DataTable sitedata={this.state.data}/>
+	      </div>
+	    );
+	  }
 });
 
 var DataRows = React.createClass({
@@ -46,35 +65,49 @@ var DataRows = React.createClass({
 var DataTable = React.createClass({
 	render:function(){
 		var rows=[];
-		this.props.sitedata.forEach(function(webdata){
+		if(this.props.sitedata.length!=0){
+		this.props.sitedata.data.forEach(function(webdata){
         	  rows.push(<DataRows webdata={webdata} key={webdata.website} />); 
         });
-
+        }
 		return(
 			<table>
 				<thead>
 	                <tr>
-	                    <th>Website</th>
-	                    <th>Title</th>
-	                    <th>Department</th>
+	                    <th>Website </th>
+	                    <th>Title </th>
+	                    <th>Department </th>
 	                    <th>Contact</th>
-	                    <th>Maintainer</th>
+	                    <th>Maintainer </th>
 	                </tr>
 	            </thead>
 	            <tbody>{rows}</tbody>
             </table>
 			);
-
 	}
 
 });
 
 var SearchBox = React.createClass({
-	render:function(){
+    handleSubmit:function(){
+    	var search = this.refs.searchTerm.getDOMNode().value.trim();
+		this.props.onSearchSubmit(search);
+ 		this.refs.searchTerm.getDOMNode().value = '';
+    	return false;
 
-        return (
-            <form>
-                <input type="text" placeholder="Search..." />
+    },
+	render:function(){
+    return (
+            <form className="SearchBox" onSubmit={this.handleSubmit}>
+            	<input  
+            	    type="text"
+                    placeholder="Search..."
+                    ref ="searchTerm"
+                />
+                <input
+                   type="submit"
+                   value="Search"
+                />
 
             </form>
         );
@@ -83,22 +116,6 @@ var SearchBox = React.createClass({
 
 });
 
-var SITEDATA = [{
-WebSite: "soapbox.unimelb.edu.au",
-Title: "THE SOAPBOX: Website no longer available",
-Faculty: "#Unknown",
-Contact: "Unknown",
-Maintainer: "Sally Young"
-},
-{
-WebSite: "www.oznet.unimelb.edu.au",
-Title: "OzNet Monitoring Network Website",
-Faculty: "Engineering",
-Contact: "Tony Zara",
-Maintainer: "Jeffrey Phillip Walker"
-}];
-
-
-React.renderComponent(<FrontEndApp  sitedata={SITEDATA}/>, document.getElementById('content')); // jshint ignore:line
+React.renderComponent(<FrontEndApp />, document.getElementById('content')); // jshint ignore:line
 
 module.exports = FrontEndApp;
