@@ -1,10 +1,9 @@
 # webSiteData.rb
-# require 'json'
 
 class  WebSiteData
 	attr_accessor :contact, :maintainer
 
-	def initialize(url, name, dept, contact=" ", maintainer=" ")
+	def initialize(url, name, dept=" ", contact=" ", maintainer=" ")
      	@url        = url
      	@name       = name
      	@dept       = dept
@@ -18,11 +17,11 @@ class  WebSiteData
    
    def to_h
         {
-        	'WebSite:'    => @url, 
-        	'Title:'      => @name, 
-        	'Faculty:'    => @dept,
-        	'Contact:'    => @contact, 
-        	'Maintainer:' => @maintainer
+        	'WebSite'    => @url, 
+        	'Title'      => @name, 
+        	'Faculty'    => @dept,
+        	'Contact'    => @contact, 
+        	'Maintainer' => @maintainer
         }
    end
 end
