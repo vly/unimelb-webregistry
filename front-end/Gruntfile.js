@@ -73,6 +73,19 @@ module.exports = function (grunt) {
       }
     },
 
+    react: {
+      dynamic_mappings: {
+          files: [
+              {
+                  expand: true,
+                  src: ['src/**/*.jsx', "test/**/*.jsx"],
+                  dest: 'build_jsx/',
+                  ext: '.js'
+              }
+          ]
+      }
+    },
+
     copy: {
       dist: {
         files: [
@@ -116,8 +129,8 @@ module.exports = function (grunt) {
       'webpack-dev-server'
     ]);
   });
-
-  grunt.registerTask('test', ['karma']);
+grunt.loadNpmTasks('grunt-react');
+  grunt.registerTask('test', ['default','karma']);
 
   grunt.registerTask('build', ['clean', 'copy', 'webpack']);
 

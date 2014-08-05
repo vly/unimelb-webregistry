@@ -1,15 +1,16 @@
 'use strict';
-
+var ReactTools = require('react-tools');
 module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
     files: [
       'test/helpers/**/*.js',
-      'test/spec/components/**/*.js'
+      'test/spec/components/**/*.jsx'
     ],
+
     preprocessors: {
-      'test/spec/components/**/*.js': ['webpack']
+      'test/spec/components/**/*.jsx': ['webpack']
     },
     webpack: {
       cache: true,
